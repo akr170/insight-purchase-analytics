@@ -61,12 +61,17 @@ with open(ordr,'r', encoding="utf8") as fh1:
 sorted_dept_keys = sorted(list(dept_info.keys()))
 
 # The following code builds the formatted output text and then outputs in report.csv
-otpt = 'department_id,number_of_orders,number_of_first_orders,percentage'
+# The first two lines ensures that the old output file, if it exists, gets deleted
+fh2 = open(outf,'w')
+fh2.close()
 
+fh2 = open(outf,'a')
+otpt = 'department_id,number_of_orders,number_of_first_orders,percentage'
+fh2.write(otpt)
 for i in range(len(sorted_dept_keys)):
     temp = dept_info[sorted_dept_keys[i]]
-    otpt = otpt + '\n' + str(temp[0]) + ',' + str(temp[1]) + ',' + str(temp[1] - temp[2]) + ',' + '{:.2f}'.format(float(temp[1] - temp[2])/float(temp[1]))
+    otpt = '\n' + str(temp[0]) + ',' + str(temp[1]) + ',' + str(temp[1] - temp[2]) + ',' + '{:.2f}'.format(float(temp[1] - temp[2])/float(temp[1]))
+    fh2.write(otpt)
 
-fh2 = open(outf,'w')
-fh2.write(otpt)
+
 fh2.close()
